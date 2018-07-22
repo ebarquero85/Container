@@ -1,6 +1,6 @@
 <?php
 
-namespace Ebarquero85\Container;
+namespace Edgard\Container;
 
 use Closure;
 use InvalidArgumentException;

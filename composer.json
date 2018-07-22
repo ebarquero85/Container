@@ -19,7 +19,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Ebarquero85\\Container\\": "src"
+            "Edgard\\Container\\": "src"
         }
     }
 }
