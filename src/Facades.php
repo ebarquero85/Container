@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Container;
+namespace Ebarquero85\Container;
+
+use Exception;
 
 abstract class Facades
 {

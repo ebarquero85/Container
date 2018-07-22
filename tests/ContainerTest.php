@@ -1,7 +1,7 @@
 <?php
 
-use App\Container\Container;
-use App\Container\ContainerException;
+use Ebarquero85\Container\Container;
+use Ebarquero85\Container\ContainerException;
 
 class ContainerTest extends \PHPUnit\Framework\TestCase
 {
@@ -59,7 +59,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @expectedException App\Container\ContainerException
+     * @expectedException Ebarquero85\Container\ContainerException
      *
      */
     public function test_bind_with_no_dependecy_class_exist()

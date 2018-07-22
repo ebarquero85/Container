@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Container;
+namespace Ebarquero85\Container;
 
 abstract class Provider
 {
