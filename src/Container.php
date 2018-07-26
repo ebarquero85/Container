@@ -91,7 +91,7 @@ class Container
         try{
             $reflection = new ReflectionClass($class);
         }catch (ReflectionException $e){
-            throw new ContainerException('No existe la clase');
+            throw new ContainerException('Class do not exists');
         }
 
         if (!$reflection->isInstantiable()) {
