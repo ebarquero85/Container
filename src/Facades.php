@@ -21,7 +21,7 @@ abstract class Facades
 
     public static function getAccessor()
     {
-        throw new Exception('Please define getAccessor method in your facade');
+        throw new Exception('Please define getAccessor method in your facade.');
     }
 
     public static function __callStatic($method, $arguments)
