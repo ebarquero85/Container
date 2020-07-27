@@ -4,7 +4,6 @@ namespace Edgard\Container;
 
 class Application
 {
-
     /**
      * @var Container
      */
@@ -20,14 +19,9 @@ class Application
      */
     public function registerProviders(array $providers)
     {
-
-        foreach($providers as $provider){
-
+        foreach ($providers as $provider) {
             $provider = new $provider($this->container);
             $provider->register();
         }
-
     }
-
 }
-

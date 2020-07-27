@@ -4,7 +4,6 @@ namespace Edgard\Container;
 
 abstract class Provider
 {
-
     /**
      * @var Container
      */
@@ -16,5 +15,4 @@ abstract class Provider
     }
 
     abstract public function register();
-
 }
