@@ -9,7 +9,6 @@ use ReflectionException;
 
 class Container
 {
-
     protected $binding = [];
     protected $shared = [];
 
@@ -17,36 +16,29 @@ class Container
 
     public function bind($name, $resolver, $shared = false)
     {
-
         $this->binding[$name] = [
             'resolver' => $resolver,
-            'shared' => $shared
+            'shared'   => $shared,
         ];
-
     }
 
     public static function getInstance()
     {
-
-        if(static::$instance == null){
-            static::$instance = new Container();
+        if (static::$instance == null) {
+            static::$instance = new self();
         }
 
         return static::$instance;
-
     }
 
-    public static function setInstance(Container $container)
+    public static function setInstance(self $container)
     {
-
         static::$instance = $container;
-        
     }
-
 
     public function singleton($name, $resolver)
     {
-        $this->bind($name,$resolver,true);
+        $this->bind($name, $resolver, true);
     }
 
     public function instance($name, $object)
@@ -56,16 +48,14 @@ class Container
 
     public function make($name, array $arguments = [])
     {
-
         if (isset($this->shared[$name])) {
             return $this->shared[$name];
         }
 
-        if(isset($this->binding[$name])){
+        if (isset($this->binding[$name])) {
             $resolver = $this->binding[$name]['resolver'];
             $shared = $this->binding[$name]['shared'];
-        }
-        else{
+        } else {
             $resolver = $name;
             $shared = false;
         }
@@ -76,21 +66,18 @@ class Container
             $object = $this->build($resolver, $arguments);
         }
 
-        if($shared){
+        if ($shared) {
             $this->shared[$name] = $object;
         }
 
         return $object;
-
-
     }
 
     public function build($class, array $arguments = [])
     {
-
-        try{
+        try {
             $reflection = new ReflectionClass($class);
-        }catch (ReflectionException $e){
+        } catch (ReflectionException $e) {
             throw new ContainerException('Class do not exists');
         }
 
@@ -101,7 +88,7 @@ class Container
         $constructor = $reflection->getConstructor(); // Devuelve un ReflectionMethod
 
         if (is_null($constructor)) {
-            return new $class;
+            return new $class();
         }
 
         $constructorParameters = $constructor->getParameters(); // Devuelve un arreglo de [ReflectionParameter]
@@ -109,10 +96,9 @@ class Container
         $dependencies = [];
 
         foreach ($constructorParameters as $constructorParameter) {
-
             $parameterName = $constructorParameter->getName();
 
-            if(isset($arguments[$parameterName])){
+            if (isset($arguments[$parameterName])) {
                 $dependencies[] = $parameterName;
                 continue;
             }
@@ -120,23 +106,17 @@ class Container
             try {
                 $parameterClass = $constructorParameter->getClass();
             } catch (ReflectionException $e) {
-                throw new ContainerException("La clase [$parameterName]: " . $e->getMessage(), null, $e);
+                throw new ContainerException("La clase [$parameterName]: ".$e->getMessage(), null, $e);
             }
 
-            if(!is_null($parameterClass)){
-
+            if (!is_null($parameterClass)) {
                 $parameterClassName = $parameterClass->getName();
                 $dependencies[] = $this->build($parameterClassName);
-
-            }else{
+            } else {
                 throw new ContainerException("Please provide the value of the parameter [$parameterName]");
             }
-
-
         }
 
         return $reflection->newInstanceArgs($dependencies);
-
     }
-
 }
